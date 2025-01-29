@@ -1,8 +1,8 @@
-﻿using CoinFlow.Configurations.Settings;
+﻿using CoinFlow.Infrastructure.Configurations.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 
-namespace CoinFlow.Configurations;
+namespace CoinFlow.Infrastructure.Configurations;
 
 public static class SwaggerConfig
 {
