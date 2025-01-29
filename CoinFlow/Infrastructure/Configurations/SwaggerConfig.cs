@@ -4,6 +4,8 @@ using Microsoft.OpenApi.Models;
 
 namespace CoinFlow.Infrastructure.Configurations;
 
+using Filters;
+
 public static class SwaggerConfig
 {
     private static void SwaggerGen(IServiceCollection service, IConfiguration configuration)
@@ -38,6 +40,8 @@ public static class SwaggerConfig
                     Title = swaggerSettings.Title, Version = swaggerSettings.Version,
                     Description = swaggerSettings.Description
                 });
+
+            options.SchemaFilter<SchemaExampleFilter>();
         });
     }
 

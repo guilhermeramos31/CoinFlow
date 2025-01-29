@@ -2,7 +2,8 @@
 
 using Data.Contexts;
 using Microsoft.AspNetCore.Identity;
-using Models;
+using Models.RoleEntity;
+using Models.UserEntity;
 
 public static class IdentityConfig
 {
@@ -15,8 +16,8 @@ public static class IdentityConfig
                 employee.Password.RequireUppercase = false;
                 employee.Password.RequireNonAlphanumeric = false;
             } )
-            .AddRoleManager<RoleManager<Role>>()
             .AddUserManager<UserManager<User>>()
+            .AddRoleManager<RoleManager<Role>>()
             .AddEntityFrameworkStores<CoinFlowContext>()
             .AddDefaultTokenProviders();
     }
