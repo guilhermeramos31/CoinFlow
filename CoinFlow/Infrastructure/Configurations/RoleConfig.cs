@@ -1,8 +1,8 @@
 ﻿namespace CoinFlow.Infrastructure.Configurations;
 
 using Microsoft.AspNetCore.Identity;
-using Models;
-using Models.Enums;
+using Models.RoleEntity;
+using Models.RoleEntity.Enums;
 
 public static class RoleConfig
 {

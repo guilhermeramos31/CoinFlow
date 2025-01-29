@@ -1,4 +1,4 @@
-﻿namespace CoinFlow.Models;
+﻿namespace CoinFlow.Models.RoleEntity;
 
 using Microsoft.AspNetCore.Identity;
 
