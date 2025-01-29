@@ -1,4 +1,4 @@
-﻿namespace CoinFlow.Infrastructure.Contexts;
+﻿namespace CoinFlow.Infrastructure.Data.Contexts;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

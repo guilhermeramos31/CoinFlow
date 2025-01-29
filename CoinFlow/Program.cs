@@ -1,5 +1,5 @@
 using CoinFlow.Infrastructure.Configurations;
-using CoinFlow.Infrastructure.Contexts;
+using CoinFlow.Infrastructure.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,8 +9,8 @@ var configuration = builder.Configuration;
 builder.Services.AddControllers();
 
 // Connection whit DB
-builder.Services.AddDbContext<CoinFlowContext>( options =>
-    options.UseNpgsql( builder.Configuration.GetConnectionString( "DefaultConnection" ) ) );
+builder.Services.AddDbContext<CoinFlowContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.BuildSwagger(configuration);
