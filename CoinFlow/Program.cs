@@ -15,6 +15,9 @@ builder.Services.AddDbContext<CoinFlowContext>(options =>
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.BuildSwagger(configuration);
 
+//Identity
+builder.Services.BuildIdentity();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,5 +31,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+await app.CreateRolesAsync();
 
 app.Run();

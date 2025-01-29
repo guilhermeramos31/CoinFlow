@@ -9,16 +9,6 @@ trim_trailing_whitespace = true
 insert_final_newline = true
 
 [*.cs]
-dotnet_naming_rule.async_methods_should_end_with_async.symbols = async_methods
-dotnet_naming_rule.async_methods_should_end_with_async.style = async_suffix
-dotnet_naming_rule.async_methods_should_end_with_async.severity = warning
-
-dotnet_naming_symbols.async_methods.applicable_kinds = method
-dotnet_naming_symbols.async_methods.required_modifiers = async
-
-dotnet_naming_style.async_suffix.required_suffix = Async
-dotnet_naming_style.async_suffix.capitalization = camel_case
-
 dotnet_style_require_accessibility_modifiers = always
 csharp_style_var_for_built_in_types = false:silent
 csharp_style_var_when_type_is_apparent = true:silent
