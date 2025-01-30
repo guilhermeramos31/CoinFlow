@@ -1,6 +1,7 @@
 using CoinFlow.Infrastructure.Configurations;
 using CoinFlow.Infrastructure.Configurations.Settings;
 using CoinFlow.Infrastructure.Data.Contexts;
+using CoinFlow.Infrastructure.Managers;
 using CoinFlow.Models.Profiles;
 using CoinFlow.Services;
 using CoinFlow.Services.Interfaces;
@@ -16,6 +17,9 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.Configure<JwtSetting>(configuration.GetSection("JwtSettings"));
 
 builder.Services.AddAutoMapper(typeof(UserProfile));
+
+builder.Services.AddScoped<UowManager>();
+builder.Services.AddScoped<JwtSetting>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
