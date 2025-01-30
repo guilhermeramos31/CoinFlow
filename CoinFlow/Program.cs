@@ -1,4 +1,5 @@
 using CoinFlow.Infrastructure.Configurations;
+using CoinFlow.Infrastructure.Configurations.Settings;
 using CoinFlow.Infrastructure.Data.Contexts;
 using CoinFlow.Models.Profiles;
 using CoinFlow.Services;
@@ -10,10 +11,15 @@ var configuration = builder.Configuration;
 
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.Configure<JwtSetting>(configuration.GetSection("JwtSettings"));
 
 builder.Services.AddAutoMapper(typeof(UserProfile));
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 // Connection whit DB
 builder.Services.AddDbContext<CoinFlowContext>(options =>
@@ -25,6 +31,9 @@ builder.Services.BuildSwagger(configuration);
 //Identity
 builder.Services.BuildIdentity();
 
+//Auth
+builder.Services.BuildAuth(configuration);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -35,6 +44,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -5,12 +5,13 @@ using Microsoft.OpenApi.Models;
 namespace CoinFlow.Infrastructure.Configurations;
 
 using Filters;
+using Utils;
 
 public static class SwaggerConfig
 {
     private static void SwaggerGen(IServiceCollection service, IConfiguration configuration)
     {
-        var swaggerSettings = Utils.Settings.GetSettings<SwaggerSetting>("Swagger", configuration);
+        var swaggerSettings = configuration.GetSettings<SwaggerSetting>("Swagger");
         service.AddSwaggerGen(options =>
         {
             var securityScheme = new OpenApiSecurityScheme
@@ -55,7 +56,7 @@ public static class SwaggerConfig
 
     public static void UseCustomSwagger(this WebApplication app, IConfiguration configuration)
     {
-        var swaggerSettings = Utils.Settings.GetSettings<SwaggerSetting>("Swagger", configuration);
+        var swaggerSettings = configuration.GetSettings<SwaggerSetting>("Swagger");
 
         if (app.Environment.IsDevelopment())
         {
