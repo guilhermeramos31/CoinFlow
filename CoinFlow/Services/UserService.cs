@@ -47,8 +47,7 @@ public class UserService(
 
     public async Task<UserResponse> CurrentUser()
     {
-        var token = accessor.HttpContext?.Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim();
-        if (string.IsNullOrEmpty(token)) throw new BadHttpRequestException("Missing token.");
+        var token = accessor.GetToken();
 
         var jwt = jwtSetting.Value;
         var validateParameters = new TokenValidationParameters()
