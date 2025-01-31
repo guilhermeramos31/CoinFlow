@@ -1,5 +1,7 @@
 ﻿namespace CoinFlow.Infrastructure.Configurations;
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Settings;
 using Utils;
@@ -19,15 +21,20 @@ public static class AuthConfig
                 SaveSigninToken = true,
                 ValidateAudience = true,
                 ValidateLifetime = true,
-                ClockSkew = TimeSpan.Zero,
                 ValidateIssuerSigningKey = true,
                 ValidIssuers = jwtPayload.Issuers,
                 ValidAudience = jwtPayload.Audience,
-                IssuerSigningKey = Encoding.GetBytes(jwtPayload.Secret)
+                IssuerSigningKey = Encoding.SymmetricSecurityKey(jwtPayload.Secret)
             };
             options.Events = new()
             {
-                OnAuthenticationFailed = context => throw new BadHttpRequestException(context.Exception.Message),
+                OnAuthenticationFailed = context =>
+                {
+                    context.NoResult();
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                    context.Response.ContentType = "text/plain";
+                    return context.Response.WriteAsync("Unauthorized: Invalid token.");
+                }
             };
         });
         services.AddAuthorization();

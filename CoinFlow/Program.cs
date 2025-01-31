@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using CoinFlow.Infrastructure.Configurations;
 using CoinFlow.Infrastructure.Configurations.Settings;
 using CoinFlow.Infrastructure.Data.Contexts;
@@ -14,12 +15,13 @@ var configuration = builder.Configuration;
 builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.Configure<JwtSetting>(configuration.GetSection("JwtSettings"));
+builder.Services.Configure<JwtSetting>(builder.Configuration.GetSection("JwtSettings"));
 
 builder.Services.AddAutoMapper(typeof(UserProfile));
 
 builder.Services.AddScoped<UowManager>();
 builder.Services.AddScoped<JwtSetting>();
+builder.Services.AddSingleton<JwtSecurityTokenHandler>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();

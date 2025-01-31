@@ -1,6 +1,9 @@
 ﻿namespace CoinFlow.Services.Interfaces;
 
+using Models.UserEntity.Dto;
+using LoginRequest = Models.UserEntity.Dto.LoginRequest;
+
 public interface IAuthService
 {
-    Task<Object> Login(string username, string password);
+    Task<LoginResponse> LoginAsync(LoginRequest loginRequest);
 }
