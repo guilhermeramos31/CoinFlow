@@ -9,13 +9,21 @@ public class SchemaExampleFilter : ISchemaFilter
 {
     public void Apply(OpenApiSchema schema, SchemaFilterContext context)
     {
-        if (context.Type == typeof(UserRequest))
+        var propertyExamples = new Dictionary<string, IOpenApiAny>
         {
-            schema.Properties["userName"].Example = new OpenApiString("johndoe");
-            schema.Properties["name"].Example = new OpenApiString("John Doe");
-            schema.Properties["email"].Example = new OpenApiString("john.doe@example.com");
-            schema.Properties["password"].Example = new OpenApiString("SenhaSegura123@");
-            schema.Properties["phoneNumber"].Example = new OpenApiString("+5511999999999");
+            { "userName", new OpenApiString("johndoe") },
+            { "name", new OpenApiString("John Doe") },
+            { "email", new OpenApiString("john.doe@example.com") },
+            { "password", new OpenApiString("SenhaSegura123@") },
+            { "phoneNumber", new OpenApiString("+5511999999999") },
+        };
+
+        foreach (var property in schema.Properties)
+        {
+            if (propertyExamples.TryGetValue(property.Key, out var example))
+            {
+                property.Value.Example = example;
+            }
         }
     }
 }

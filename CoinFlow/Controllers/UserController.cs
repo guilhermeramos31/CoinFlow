@@ -9,9 +9,12 @@ using Services.Interfaces;
 [Route("[controller]")]
 public class UserController(IUserService userService) : ControllerBase
 {
-    [HttpPost("register")]
+    [HttpPost("[action]")]
     public async Task<IActionResult> Register(UserRequest request)
     {
         return Ok(await userService.CreateAsync(request));
     }
-};
+
+    [HttpGet("[action]")]
+    public async Task<IActionResult> CurrentUser() { return Ok(await userService.CurrentUser()); }
+}
