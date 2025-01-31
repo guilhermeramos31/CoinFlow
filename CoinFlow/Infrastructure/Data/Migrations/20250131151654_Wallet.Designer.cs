@@ -3,6 +3,7 @@ using System;
 using CoinFlow.Infrastructure.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CoinFlow.Migrations
 {
     [DbContext(typeof(CoinFlowContext))]
-    partial class CoinFlowContextModelSnapshot : ModelSnapshot
+    [Migration("20250131151654_Wallet")]
+    partial class Wallet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,9 +132,6 @@ namespace CoinFlow.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
-
-                    b.Property<decimal>("Balance")
-                        .HasColumnType("numeric");
 
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("timestamp with time zone");

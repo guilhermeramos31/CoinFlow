@@ -6,8 +6,6 @@ using Infrastructure.Configurations.Settings;
 using Infrastructure.Managers;
 using Interfaces;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.JsonWebTokens;
-using Microsoft.IdentityModel.Tokens;
 using Models.RoleEntity.Enums;
 using Models.UserEntity;
 using Models.UserEntity.Dto;
@@ -18,7 +16,8 @@ public class UserService(
     UowManager uowManager,
     IHttpContextAccessor accessor,
     ITokenService tokenService,
-    IOptions<JwtSetting> jwtSetting) : IUserService
+    IOptions<JwtSetting> jwtSetting,
+    IWalletService walletService) : IUserService
 {
     public async Task<UserResponse> CreateAsync(UserRequest request)
     {
@@ -42,37 +41,13 @@ public class UserService(
                 $"Failed to create user: {string.Join(", ", resultUserRole.Errors.Select(x => x.Description))}");
         }
 
+        await walletService.CreateWallet(user.Id);
+
         return mapper.Map<UserResponse>(user);
     }
 
     public async Task<UserResponse> CurrentUser()
     {
-        var token = accessor.GetToken();
-
-        var jwt = jwtSetting.Value;
-        var validateParameters = new TokenValidationParameters()
-        {
-            ValidateIssuer = false,
-            ValidateLifetime = true,
-            ValidateAudience = true,
-            ValidIssuers = jwt.Issuers,
-            ValidAudience = jwt.Audience,
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = Encoding.SymmetricSecurityKey(jwt.Secret)
-        };
-
-        var tokenValidation = tokenService.ValidateToken(token, validateParameters);
-        if (tokenValidation == null) throw new UnauthorizedAccessException("User not Authenticated.");
-
-        var emailClaims = tokenValidation.FindFirstValue(ClaimTypes.Email);
-        var idClaims = tokenValidation.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (emailClaims == null || idClaims == null) throw new BadHttpRequestException("Claims invalid.");
-
-        var userById = await uowManager.UserManager.FindByIdAsync(idClaims);
-        var userByEmail = await uowManager.UserManager.FindByEmailAsync(emailClaims);
-        if (userByEmail == null || userById == null) throw new BadHttpRequestException("User not found");
-        if (userByEmail.Id != userById.Id) throw new BadHttpRequestException("claims do not match");
-
-        return mapper.Map<UserResponse>(userById);
+        return mapper.Map<UserResponse>(await accessor.GetUser(jwtSetting, tokenService, uowManager));
     }
 }
