@@ -1,6 +1,5 @@
 ﻿namespace CoinFlow.Services;
 
-using System.Security.Claims;
 using AutoMapper;
 using Infrastructure.Configurations.Settings;
 using Infrastructure.Managers;
@@ -14,8 +13,8 @@ using Utils;
 public class UserService(
     IMapper mapper,
     UowManager uowManager,
-    IHttpContextAccessor accessor,
     ITokenService tokenService,
+    IHttpContextAccessor accessor,
     IOptions<JwtSetting> jwtSetting,
     IWalletService walletService) : IUserService
 {

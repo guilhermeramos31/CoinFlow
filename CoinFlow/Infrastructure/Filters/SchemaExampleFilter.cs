@@ -14,8 +14,10 @@ public class SchemaExampleFilter : ISchemaFilter
             { "userName", new OpenApiString("johndoe") },
             { "name", new OpenApiString("John Doe") },
             { "email", new OpenApiString("john.doe@example.com") },
-            { "password", new OpenApiString("SenhaSegura123@") },
+            { "password", new OpenApiString("SafePassword123@") },
             { "phoneNumber", new OpenApiString("+5511999999999") },
+            { "receiver", new OpenApiString("john.doe@example.com") },
+            { "amount", new OpenApiDouble(10)}
         };
 
         foreach (var property in schema.Properties)
