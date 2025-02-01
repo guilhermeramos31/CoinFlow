@@ -27,6 +27,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IWalletService, WalletService>();
+builder.Services.AddScoped<ITransferService, TransferService>();
 
 // Connection whit DB
 builder.Services.AddDbContext<CoinFlowContext>(options =>
