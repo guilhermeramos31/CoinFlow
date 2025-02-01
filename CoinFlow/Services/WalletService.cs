@@ -65,4 +65,13 @@ public class WalletService(
 
         return wallet;
     }
+
+    public async Task<decimal> GetBalance()
+    {
+        var user = await accessor.GetUser(jwtSetting, tokenService, uowManager);
+        var wallet = await context.Wallets.FirstOrDefaultAsync(w => w.UserId == user.Id);
+        if (wallet == null) throw new BadHttpRequestException("Wallet not found");
+
+        return wallet.Balance;
+    }
 }

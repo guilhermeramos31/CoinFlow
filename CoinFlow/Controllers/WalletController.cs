@@ -18,4 +18,10 @@ public class WalletController(IWalletService walletService) : ControllerBase
     {
         return Ok(await walletService.Withdrawal(request));
     }
+
+    [HttpGet("[action]")]
+    public async Task<IActionResult> Balance()
+    {
+        return Ok(await walletService.GetBalance());
+    }
 }
