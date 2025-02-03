@@ -40,8 +40,6 @@ public class UserService(
                 $"Failed to create user: {string.Join(", ", resultUserRole.Errors.Select(x => x.Description))}");
         }
 
-        await walletService.CreateWallet(user.Id);
-
         return mapper.Map<UserResponse>(user);
     }
 

@@ -8,7 +8,7 @@ using Services.Interfaces;
 
 [ApiController]
 [Route("[controller]")]
-public class UserController(IUserService userService, ITransferService transferService) : ControllerBase
+public class UserController(IUserService userService) : ControllerBase
 {
     [HttpPost("[action]")]
     public async Task<IActionResult> Register(UserRequest request)
@@ -20,11 +20,5 @@ public class UserController(IUserService userService, ITransferService transferS
     public async Task<IActionResult> Me()
     {
         return Ok(await userService.CurrentUser());
-    }
-
-    [HttpPost("[action]")]
-    public async Task<IActionResult> TransferAsync(TransferRequest request)
-    {
-        return Ok(await transferService.TransferAsync(request));
     }
 }

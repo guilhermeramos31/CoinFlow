@@ -14,7 +14,8 @@ public class TransferService(
     ITokenService tokenService,
     IHttpContextAccessor accessor,
     IOptions<JwtSetting> jwtSetting,
-    CoinFlowContext dbContext
+    CoinFlowContext dbContext,
+    ITransactionHistoryService transactionHistoryService
 ) : ITransferService
 {
     public async Task<TransferResponse> TransferAsync(TransferRequest request)
@@ -35,6 +36,9 @@ public class TransferService(
         receiverWallet.Balance += request.amount;
 
         dbContext.Wallets.UpdateRange(userWallet, receiverWallet);
+
+        await transactionHistoryService.CreateTransactionHistory(user, receiver, request.amount);
+
         await dbContext.SaveChangesAsync();
 
         return new()
