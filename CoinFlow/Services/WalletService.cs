@@ -7,7 +7,6 @@ using Infrastructure.Managers;
 using Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Models.UserEntity;
 using Models.UserEntity.Dto;
 using Models.WalletEntity;
 using Models.WalletEntity.Dto;
@@ -22,12 +21,6 @@ public class WalletService(
     IOptions<JwtSetting>
         jwtSetting) : IWalletService
 {
-    public async Task CreateWallet(Guid userId)
-    {
-        await context.Wallets.AddAsync(new Wallet() { UserId = userId });
-        await context.SaveChangesAsync();
-    }
-
     public async Task<WalletResponse> Deposit(decimal request)
     {
         var wallet = await GetWallet();
@@ -67,13 +60,13 @@ public class WalletService(
         return wallet;
     }
 
-    public async Task<object> GetBalance()
+    public async Task<WalletResponse> GetBalance()
     {
         var user = await accessor.GetUser(jwtSetting, tokenService, uowManager);
         var wallet = await context.Wallets.FirstOrDefaultAsync(w => w.UserId == user.Id);
         if (wallet == null) throw new BadHttpRequestException("Wallet not found");
 
-        return new
+        return new()
         {
             User = mapper.Map<UserResponse>(user),
             Balance = wallet.Balance

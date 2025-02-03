@@ -1,6 +1,5 @@
 ﻿namespace CoinFlow.Utils;
 
-using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
 public static class Encoding

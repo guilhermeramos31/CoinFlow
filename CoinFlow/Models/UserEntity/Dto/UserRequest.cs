@@ -1,7 +1,6 @@
 ﻿namespace CoinFlow.Models.UserEntity.Dto;
 
 using System.ComponentModel.DataAnnotations;
-using Swashbuckle.AspNetCore.Annotations;
 
 public class UserRequest
 {

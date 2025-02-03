@@ -11,10 +11,10 @@ public static class IdentityConfig
     {
         service.AddIdentity<User, Role>(employee =>
             {
-                employee.Password.RequireDigit = false;
-                employee.Password.RequireLowercase = false;
-                employee.Password.RequireUppercase = false;
-                employee.Password.RequireNonAlphanumeric = false;
+                employee.Password.RequireDigit = true;
+                employee.Password.RequireLowercase = true;
+                employee.Password.RequireUppercase = true;
+                employee.Password.RequireNonAlphanumeric = true;
             } )
             .AddUserManager<UserManager<User>>()
             .AddRoleManager<RoleManager<Role>>()

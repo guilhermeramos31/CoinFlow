@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CoinFlow.Controllers;
 
-using Models.TransferEntity.Dto;
 using Models.UserEntity.Dto;
 using Services.Interfaces;
 

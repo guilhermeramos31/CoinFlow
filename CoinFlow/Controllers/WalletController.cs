@@ -36,8 +36,8 @@ public class WalletController(
     }
 
     [HttpGet("[action]")]
-    public async Task<IActionResult> TransferTransactionHistory([FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
+    public async Task<IActionResult> TransferHistory([FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
     {
-        return Ok(await transactionHistoryService.TransferTransactionHistory(startDate, endDate));
+        return Ok(await transactionHistoryService.TransferHistory(startDate, endDate));
     }
 }

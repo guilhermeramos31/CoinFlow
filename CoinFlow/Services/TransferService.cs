@@ -1,12 +1,11 @@
 ﻿namespace CoinFlow.Services;
 
 using Infrastructure.Configurations.Settings;
-using Infrastructure.Data.Contexts;
 using Infrastructure.Managers;
 using Interfaces;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Models.TransferEntity.Dto;
+using Repositories.Interfaces;
 using Utils;
 
 public class TransferService(
@@ -14,32 +13,26 @@ public class TransferService(
     ITokenService tokenService,
     IHttpContextAccessor accessor,
     IOptions<JwtSetting> jwtSetting,
-    CoinFlowContext dbContext,
+    IUowRepository uowRepository,
     ITransactionHistoryService transactionHistoryService
 ) : ITransferService
 {
     public async Task<TransferResponse> TransferAsync(TransferRequest request)
     {
         var user = await accessor.GetUser(jwtSetting, tokenService, uowManager);
-        var userWallet = await dbContext.Wallets.FirstOrDefaultAsync(u => u.UserId == user.Id);
-        if (userWallet == null) throw new BadHttpRequestException("Wallet doesn't exist");
-        if (userWallet.Balance < request.amount) throw new BadHttpRequestException("Not enough balance");
-
-        var receiver = await dbContext.Users.FirstOrDefaultAsync(u => u.Email == request.receiver);
-        if (receiver == null) throw new BadHttpRequestException("Recipient doesn't exist");
-        var receiverWallet = await dbContext.Wallets.FirstOrDefaultAsync(u => u.UserId == receiver.Id);
-        if (receiverWallet == null) throw new BadHttpRequestException("Recipient doesn't exist");
-
+        user = await uowRepository.UserRepository.GetUserById(user.Id);
+        if (user == null) throw new BadHttpRequestException("User not found");
         if (user.Email == request.receiver) throw new BadHttpRequestException("You cannot transfer yourself");
+        if (user.Wallet.Balance < request.amount) throw new BadHttpRequestException("Not enough balance");
+
+        var receiver = await uowRepository.UserRepository.GetUserByEmail(request.receiver);
+        if (receiver == null) throw new BadHttpRequestException("Receiver doesn't exist");
 
         user.Wallet.Balance -= request.amount;
-        receiverWallet.Balance += request.amount;
+        receiver.Wallet.Balance += request.amount;
 
-        dbContext.Wallets.UpdateRange(userWallet, receiverWallet);
-
-        await transactionHistoryService.CreateTransactionHistory(user, receiver, request.amount);
-
-        await dbContext.SaveChangesAsync();
+        uowRepository.WalletRepository.UpdateRange(user.Wallet, receiver.Wallet);
+        await transactionHistoryService.CreateAsync(user, receiver, request.amount);
 
         return new()
         {
