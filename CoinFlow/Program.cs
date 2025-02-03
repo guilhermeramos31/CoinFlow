@@ -4,6 +4,8 @@ using CoinFlow.Infrastructure.Configurations.Settings;
 using CoinFlow.Infrastructure.Data.Contexts;
 using CoinFlow.Infrastructure.Managers;
 using CoinFlow.Models.Profiles;
+using CoinFlow.Repositories;
+using CoinFlow.Repositories.Interfaces;
 using CoinFlow.Services;
 using CoinFlow.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +25,7 @@ builder.Services.AddScoped<UowManager>();
 builder.Services.AddScoped<JwtSetting>();
 builder.Services.AddSingleton<JwtSecurityTokenHandler>();
 
+builder.Services.AddScoped<IUowRepository, UowRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthService, AuthService>();

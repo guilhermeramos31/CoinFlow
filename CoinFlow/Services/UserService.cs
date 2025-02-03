@@ -15,8 +15,7 @@ public class UserService(
     UowManager uowManager,
     ITokenService tokenService,
     IHttpContextAccessor accessor,
-    IOptions<JwtSetting> jwtSetting,
-    IWalletService walletService) : IUserService
+    IOptions<JwtSetting> jwtSetting) : IUserService
 {
     public async Task<UserResponse> CreateAsync(UserRequest request)
     {
