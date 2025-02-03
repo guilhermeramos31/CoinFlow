@@ -16,6 +16,10 @@ public class CoinFlowContext(DbContextOptions<CoinFlowContext> options) : Identi
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
+
         builder.Entity<User>()
             .HasOne(u => u.Wallet)
             .WithOne(w => w.User)

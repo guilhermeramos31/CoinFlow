@@ -80,7 +80,7 @@ namespace CoinFlow.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("TransactionHistory");
+                    b.ToTable("TransactionHistory", (string)null);
                 });
 
             modelBuilder.Entity("CoinFlow.Models.UserEntity.User", b =>
@@ -185,7 +185,7 @@ namespace CoinFlow.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Wallets");
+                    b.ToTable("Wallets", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
