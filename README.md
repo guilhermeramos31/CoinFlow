@@ -9,7 +9,8 @@ API desenvolvida em **.NET** com **PostgreSQL** e containerizada via **Docker Co
 Antes de começar, certifique-se de ter os seguintes softwares instalados:
 
 - [Docker](https://docs.docker.com/get-docker/)
-- [.NET ](https://dotnet.microsoft.com/pt-br/download) [Documentação](https://learn.microsoft.com/pt-br/dotnet/)
+- [.NET ](https://dotnet.microsoft.com/pt-br/download)
+- [.NET Documentação](https://learn.microsoft.com/pt-br/dotnet/)
 
 ---
 
