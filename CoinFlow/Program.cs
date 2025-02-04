@@ -53,6 +53,12 @@ if (app.Environment.IsDevelopment())
     app.UseCustomSwagger(configuration);
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await SeedData.Initialize(services);
+}
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
